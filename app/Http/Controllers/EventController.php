@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class EventController extends Controller
 {
@@ -12,6 +13,20 @@ class EventController extends Controller
     public function index()
     {
         //
+        $events = Event::select(
+            'events.id',
+            'status_events.status_name',
+            'categories_events.category_name',
+            'events.name',
+            'events.description'
+        )
+        ->join('status_events', 'status_events.id', '=', 'events.status_events_id')
+        ->join('categories_events', 'categories_events.id', '=', 'events.categories_events_id')
+        ->get();
+
+        $eventsAmount = count(Event::all());
+
+        return view('admin.index', compact('events','eventsAmount'), [EventController::class],);
     }
 
     /**
