@@ -14,5 +14,8 @@ class CategoriesEventSeeder extends Seeder
     public function run(): void
     {
         //
+        CategoriesEvent::create(['category_name' => 'Event']);
+        CategoriesEvent::create(['category_name' => 'Homework']);
+        CategoriesEvent::create(['category_name' => 'Advertisement']);
     }
 }

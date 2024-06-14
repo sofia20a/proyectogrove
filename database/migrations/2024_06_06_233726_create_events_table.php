@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('image_event');
+            $table->string('priority');
             $table->timestamps();
         });
     }

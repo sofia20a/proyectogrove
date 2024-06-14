@@ -13,5 +13,7 @@ class StatusEventSeeder extends Seeder
     public function run(): void
     {
         //
+        StatusEvent::create(['status_name' => 'Active']);
+        StatusEvent::create(['status_name' => 'Inactive']);
     }
 }
