@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,4 @@ Route::get('/', function () {
 });
 
 Route::resource('admin',EventController::class);
-
+Route::get('/courses/{id}', [TestController::class, 'show'])->name('course');
