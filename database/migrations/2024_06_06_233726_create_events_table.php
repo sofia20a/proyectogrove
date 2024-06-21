@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('image_event');
             $table->string('priority');
+            $table->timestamp('scheduled_at');
             $table->timestamps();
         });
     }

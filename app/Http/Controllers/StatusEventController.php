@@ -11,7 +11,7 @@ class StatusEventController extends Controller
      */
     public function index()
     {
-        //
+     
     }
 
     /**

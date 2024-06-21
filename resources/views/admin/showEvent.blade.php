@@ -19,13 +19,17 @@
 
 <section class="flex flex-wrap mt-12 bg-white gap-4 rounded-md p-8 w-[75vw] m-auto">
     <div class="grid gap-4">
-        <h1 class="mainFont font-semibold text-[48px]">Listening Test</h1>
-        <p class="w-[40vw] mt-4 xs:content-center">aermpetbhetbhtebhwtbhwtbwtbhxfgbnsrgthnert</p>
+    <h1 class="text-2xl font-bold">{{ $event->name }}</h1>
+    <p class="mt-2">{{ $event->description }}</p>
+
         <div className="flex gap-8 mt-[6rem]">
-            <a  href="#" class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12">Edit</a>
-            <a  href="#" class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12 ">Delete</a>
+            <a  href="{{ route('admin.edit', $event->id) }}" class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12">Edit</a>
+            <a class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12 " href="{{ route('admin.index') }}"> Back</a>
+          
+            @csrf
+            @method('DELETE')
+            <button  class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12 ">Delete</button>
+            
         </div>
     </div>
 </section>
-
-@endsection

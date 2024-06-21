@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/events', function () {
+    return view('admin.editEvent');
 });
+
 
 Route::resource('admin',EventController::class);
 Route::get('/courses/{id}', [TestController::class, 'show'])->name('course');

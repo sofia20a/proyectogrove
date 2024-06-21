@@ -9,3 +9,4 @@ class StatusEvent extends Model
 {
     use HasFactory;
 }
+

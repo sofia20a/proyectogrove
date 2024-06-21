@@ -23,22 +23,25 @@
         <button class="p-10 pt-2 pb-2 bg-[#1F5B6C] rounded-md text-white">Day</button>
         <button class="p-10 pt-2 pb-2 bg-[#1F5B6C] rounded-md text-white">Week</button>
         <button class="p-10 pt-2 pb-2 bg-[#1F5B6C] rounded-md text-white">Month</button>
-        <a href="#" class="p-10 pt-2 pb-2 bg-[#1F5B6C] rounded-md text-white">Add</a>
+        <a href="{{route('admin.create')}}" class="p-10 pt-2 pb-2 bg-[#1F5B6C] rounded-md text-white">Add</a>
     </div>
 </section>
 
 <section id='container' class="flex flex-wrap m-auto w-[70vw] p-20 rounded-md bg-white gap-4 xxs:p-8 content-center justify-between">
-    <a href='#' id={2} class="flex gap-2 bg-[#F8F9FB] rounded-md p-2 pl-4 pr-4 content-center items-center">
-        <div class="bg-[#FBB01C] rounded-full w-10 h-10"></div>
-        <div classs="grid">
-            <h3 class="font-bold mainFont">Listening Test</h3>
-            <div class="flex opacity-50 justify-between text-[12px] gap-2">
-                <p class="flex text-center items-center"><img class="h-5 w-5" src="{{url('images/calendarIconBlack.svg')}}" alt="Calendar" />March 15</p>
-                <p class="flex text-center items-center"><img class="h-5 w-5" src="{{url('images/clock.svg')}}" alt="Clock" />16:00</p>
+    @foreach($events as $event)
+        <a href="{{ route('admin.show',$event->id) }}" class="flex gap-2 bg-[#F8F9FB] rounded-md p-2 pl-4 pr-4 content-center items-center">
+            <div class="bg-[#FBB01C] rounded-full w-10 h-10"></div>
+            <div class="grid">
+                <h3 class="font-bold mainFont">{{ $event->name }}</h3>
+                <div class="flex opacity-50 justify-between text-[12px] gap-2">
+                    <p class="flex text-center items-center"><img class="h-5 w-5" src="{{url('images/calendarIconBlack.svg')}}" alt="Calendar" />{{ \Carbon\Carbon::parse($event->date)->format('F j') }}</p>
+                    <p class="flex text-center items-center"><img class="h-5 w-5" src="{{url('images/clock.svg')}}" alt="Clock" />{{ \Carbon\Carbon::parse($event->time)->format('H:i') }}</p>
+                </div>
+                <h4 class="text-[11px]">{{ $event->priority }}</h4>
             </div>
-            <h4 class="text-[11px]">High Priority</h4>
-        </div>
-    </a>
+        </a>
+        @endforeach
 </section>
 
 @endsection
+

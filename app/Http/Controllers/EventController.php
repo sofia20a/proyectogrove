@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\CategoriesEvent;
+use App\Models\StatusEvent;
 
 class EventController extends Controller
 {
@@ -26,7 +28,7 @@ class EventController extends Controller
 
         $eventsAmount = count(Event::all());
 
-        return view('admin.index', compact('events','eventsAmount'), [EventController::class],);
+        return view('admin.index', compact('events','eventsAmount'));
     }
 
     /**
@@ -34,7 +36,9 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        $categories = CategoriesEvent::all();
+        $status = StatusEvent::all();
+        return view('admin.addEvent', compact('categories', 'status'));
     }
 
     /**
@@ -42,15 +46,29 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $scheduled_at = $request->eventDate . ' ' . $request->eventHour . ':00';
+    
+      $event = Event::create([
+        'categories_events_id' => $request->categories_events_id,
+        'status_events_id' => $request->status_events_id,
+        'event_name' => $request->name,
+        'description' => $request->description,
+        'scheduled_at' => $scheduled_at,
+      ]);
+    
+    
+      return redirect()->route('admin.index')->with('success','Event registered successfully.');
     }
-
+    
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
         //
+     $event = Event::find($id);
+ 
+    return view('admin.showEvent', compact('event'));
     }
 
     /**
@@ -58,7 +76,11 @@ class EventController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories = CategoriesEvent::all();
+        $status = StatusEvent::all();
+        $event = Event::find($id);
+
+        return view('admin.editEvent', compact('event', 'categories', 'status'));
     }
 
     /**
@@ -66,14 +88,48 @@ class EventController extends Controller
      */
     public function update(Request $request, string $id)
     {
+    
         //
+        $query = Event::find($id);
+       
+        if($query){
+
+            //check if image was uploaded
+            if($file != null){
+                //check if image exists to delete it
+                $file_to_remove = 'storage/images/'.$request->old_image;
+                if(File::exists($file_to_remove)){
+                    File::delete($file_to_remove);
+                }
+                //to upload image, generate a new name and save it in storage
+            
+
+            $query->update([
+                'categories_events_id' => $request->categories_events_id,
+                'status_events_id' => $request->status_events_id,
+                'name' => $request->name,
+             
+                'description' => $request->description,
+                'scheduled_at' => $request->scheduled_at
+            ]);
+
+            return redirect()->route('admin.index')->with('success','Event updated successfully.');
+        }
+    }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+   
+        public function destroy(string $id)
+        {
+            //
+            $result = Event::find($id);
+            $result->delete();
+    
+            return redirect()->route('admin.index')->with('success','Event deleted successfully.');
+    
+        }
     }
-}
+

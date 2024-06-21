@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\CategoriesEvent;
+use App\Models\StatusEvent;
 
 class CategoriesEventController extends Controller
 {
@@ -11,8 +13,24 @@ class CategoriesEventController extends Controller
      */
     public function index()
     {
-        //
+        $categories = CategoriesEvent::select(
+            'categories_events.id',
+            'categories_events.name',
+        )->get();
+
+        foreach ($categories as $category) {
+            $events = count(
+                RegisteredEvent::where('categories_events_id', $category->id)
+                ->get()
+            );
+            $category['events'] = $events;
+        }
+    
+        return $categories;
     }
+    
+    
+
 
     /**
      * Show the form for creating a new resource.
