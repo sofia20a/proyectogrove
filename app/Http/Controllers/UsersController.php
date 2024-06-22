@@ -13,7 +13,7 @@ class UsersController extends Controller
     public function index()
     {
         //
-        return view('admin.register');
+        return view('admin.adminRegister');
     }
 
     /**
@@ -34,13 +34,18 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            "username" => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8']
         ], [
             'name.required' => 'Name field is required.',
+            'username.required' => 'Username field is required.',
             'password.required' => 'Password field is required.',
             'email.required' => 'Email field is required - min 8 chars.',
             'email.email' => 'Email field must be email address.'
         ]);
+
+        dd($request->all());
+
 
         if($validator->fails())
         {
@@ -56,6 +61,7 @@ class UsersController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => $password,
             'verification_code' => $rand_code
@@ -80,7 +86,7 @@ class UsersController extends Controller
     public function login()
     {
         //
-        return view('admin.login');
+        return view('admin.adminLogin');
     }
 
     /**
@@ -106,17 +112,10 @@ class UsersController extends Controller
 
         $uid =  $user->id;
         session_start();
-        //$_SESSION["uid"] = $uid;
+   
 
-        /*return response()->json([
-            'code' => 200,
-            'message' => 'Hi '.$user->name,
-            'accessToken' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user
-        ]);*/
 
-        return redirect()->route('events.index');
+        return redirect()->route('admin.index');
     }
 
     public function logout()

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UsersController;
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/events/all', [EventController::class, 'index']);
 
-
 Route::resource('admin',EventController::class);
 
 Route::get('/courses/{id}', [TestController::class, 'show'])->name('course');
+
+
+//users
+
+Route::get('/login', [UsersController::class, 'login']);
+Route::resource('/singup', UsersController::class);
