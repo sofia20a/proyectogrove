@@ -21,7 +21,7 @@
     <div class="grid gap-4">
     <h1 class="text-2xl font-bold">{{ $event->name }}</h1>
     <p class="mt-2">{{ $event->description }}</p>
-
+    <img src="{{ $event->image_event }}" alt="">
         <div className="flex gap-8 mt-[6rem]">
         <form action="{{ route('admin.destroy', $event->id) }}" method="POST">
             <a  href="{{ route('admin.edit', $event->id) }}" class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12">Edit</a>

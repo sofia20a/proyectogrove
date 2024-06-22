@@ -14,7 +14,7 @@ class Event extends Model
         'name',
         'description',
         'priority',
-        'image',
+        'image_event',
         'scheduled_at'
     ];
 }

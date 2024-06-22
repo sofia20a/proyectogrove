@@ -62,14 +62,14 @@ class EventController extends Controller
             'description' => 'required',
             'priority' => 'required',
         ]);
+
         $file = $request->file('image');
         $file_name = 'event_' . time() . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs('public/images', $file_name);
-      
+        
 
      
      $scheduled_at = $request->eventDate . ' ' . $request->eventHour . ':00';
-
 
 
       $event = Event::create([
@@ -78,7 +78,7 @@ class EventController extends Controller
         'name' => $request->name,
         'description' => $request->description,
         'priority' => $request->priority,
-        'image_event' => $file_name,
+        'image_event' => "/storage/images/".$file_name,
         'scheduled_at' => $scheduled_at,
       ]);
       return redirect()->route('admin.index')->with('success','Event registered successfully.');
