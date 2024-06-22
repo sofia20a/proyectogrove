@@ -14,23 +14,33 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Obtener todos los eventos con información relacionada
         $events = Event::select(
             'events.id',
             'status_events.status_name',
             'categories_events.category_name',
             'events.name',
-            'events.description'
+            'events.description',
+            'events.priority',
+            'events.image_event',
+            'events.scheduled_at'
+           
         )
         ->join('status_events', 'status_events.id', '=', 'events.status_events_id')
         ->join('categories_events', 'categories_events.id', '=', 'events.categories_events_id')
         ->get();
 
-        $eventsAmount = count(Event::all());
+        // Determinar si la solicitud espera una respuesta JSON
+        if ($request->is('api/*') || $request->wantsJson()) {
+            // Retornar los eventos como una respuesta JSON
+            return response()->json(['events' => $events]);
+        }
 
-        return view('admin.index', compact('events','eventsAmount'));
+        // Si la solicitud no espera JSON, devolver la vista
+        $eventsAmount = count(Event::all());
+        return view('admin.index', compact('events', 'eventsAmount'));
     }
 
     /**

@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriesEventController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/categories/all', [CategoriesEventController::class, 'index']);
+Route::get('/users/all', [UserController::class, 'index']);
+Route::get('/events/all', [EventController::class, 'index']);
+
+Route::get('/events/event/{id}', [EventController::class, 'show']);

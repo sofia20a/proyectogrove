@@ -2,23 +2,9 @@
 
 
 @section('content')
-<header class="pt-10 lg:px-48 xxs:px-10  mb-4 flex flex-col lg:flex-row gap-10 items-center justify-between xxs:ml-2 xxs:items-start">
-    <div class="rounded-md ">
-        <input type="text" placeholder="Search..." class="w-[445px] xxs:w-[245px] rounded-full  px-4 py-2  border focus:outline-none border-black" />
-    </div>
-    <div class="bg-white p-2 rounded-full flex gap-4 xxs:w-[320px] xxs:self-center xxs:gap-2 w-96 items-center ">
-        <h2 class="text-[#1F5B6C] text-xl ml-1">Task overload:</h2>
-        <img class="w-7 h-7" src="{{url('images/SadFace.svg')}}" alt="sadface" />
-        <img class="w-7 h-7" src="{{url('images/neutralface.svg')}}" alt="neutralface" />
-        <img class="w-7 h-7" src="{{url('images/happyFace.svg')}}" alt="happyface" />
-    </div>
-    <div class="bg-white p-2 rounded-full flex gap-4 xxs:w-[320px] xxs:self-center xxs:gap-2 w-96 items-center ">
-        <h2 class="text-[#1F5B6C] text-xl ml-1">Task Streak:</h2>
-        <h2 class="text-[#1F5B6C] text-xl">9 task completed</h2>
-    </div>
-</header>
 
-<section class="grid mt-8 w-[70vw] m-auto">
+
+<section class="grid mt-12 w-[70vw] m-auto">
     <h2 class="text-[32px] text-[#1F5B6C]">Add-Event</h2>
     
     @if ($errors->any())

@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/events', function () {
-    return view('admin.editEvent');
-});
+Route::get('/events/all', [EventController::class, 'index']);
 
 
 Route::resource('admin',EventController::class);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CategoriesEvent;
 use App\Models\StatusEvent;
+use App\Models\Event;
+
 
 class CategoriesEventController extends Controller
 {
@@ -15,12 +17,12 @@ class CategoriesEventController extends Controller
     {
         $categories = CategoriesEvent::select(
             'categories_events.id',
-            'categories_events.name',
+            'categories_events.category_name',
         )->get();
 
         foreach ($categories as $category) {
             $events = count(
-                RegisteredEvent::where('categories_events_id', $category->id)
+                Event::where('categories_events_id', $category->id)
                 ->get()
             );
             $category['events'] = $events;
