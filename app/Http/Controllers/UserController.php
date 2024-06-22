@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,6 +13,7 @@ class UserController extends Controller
     public function index()
     {
         //
+        return view('admin.register');
     }
 
     /**
@@ -20,6 +22,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        return view('admin.register');
     }
 
     /**
@@ -28,6 +31,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8']
+        ], [
+            'name.required' => 'Name field is required.',
+            'password.required' => 'Password field is required.',
+            'email.required' => 'Email field is required - min 8 chars.',
+            'email.email' => 'Email field must be email address.'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->errors());
+            //return $validator->errors();
+        }
+        
+        // If validation passes, get the validated data
+        $validated = $validator->validated();
+        
+        $password = Hash::make($validated['password']);
+        $rand_code = random_int(100000, 999999);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $password,
+            'verification_code' => $rand_code
+        ]);
+
+        //send email
+        Mail::to($validated['email'])->send(new UserMail($validated['name'], $user->id, $rand_code));
+        //
+        return 'User created successfully.';
+        
     }
 
     /**
@@ -36,6 +74,13 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
+        return view('admin.register');
+    }
+
+    public function login()
+    {
+        //
+        return view('admin.login');
     }
 
     /**
@@ -44,6 +89,45 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+    }
+
+    public function check(Request $request)
+    {
+        //
+        //return $request;
+        if(!Auth::attempt($request->only('email', 'password')))
+        {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $user = User::where('email', $request['email'])->firstOrFail();
+        
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $uid =  $user->id;
+        session_start();
+        //$_SESSION["uid"] = $uid;
+
+        /*return response()->json([
+            'code' => 200,
+            'message' => 'Hi '.$user->name,
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user
+        ]);*/
+
+        return redirect()->route('events.index');
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+        Auth::logout();
+        //destroy session and variables
+        session_start();
+        session_destroy();
+        //return response()->json(['message' => 'Logged out successfully']);
+        return redirect()->route('admin.login');
     }
 
     /**

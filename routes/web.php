@@ -21,4 +21,5 @@ Route::get('/events', function () {
 
 
 Route::resource('admin',EventController::class);
+
 Route::get('/courses/{id}', [TestController::class, 'show'])->name('course');

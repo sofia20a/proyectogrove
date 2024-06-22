@@ -23,13 +23,15 @@
     <p class="mt-2">{{ $event->description }}</p>
 
         <div className="flex gap-8 mt-[6rem]">
+        <form action="{{ route('admin.destroy', $event->id) }}" method="POST">
             <a  href="{{ route('admin.edit', $event->id) }}" class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12">Edit</a>
             <a class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12 " href="{{ route('admin.index') }}"> Back</a>
           
             @csrf
             @method('DELETE')
+           
             <button  class="text-white font-bold text-[24px] p-2 pl-12 pr-12 bg-[#FBB01C]  rounded-md mb-12 ">Delete</button>
-            
+            </form>
         </div>
     </div>
 </section>

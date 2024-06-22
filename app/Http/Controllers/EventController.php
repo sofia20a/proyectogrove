@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\CategoriesEvent;
 use App\Models\StatusEvent;
+use Illuminate\Support\Facades\Storage;
+
 
 class EventController extends Controller
 {
@@ -38,7 +40,9 @@ class EventController extends Controller
     {
         $categories = CategoriesEvent::all();
         $status = StatusEvent::all();
+        
         return view('admin.addEvent', compact('categories', 'status'));
+        
     }
 
     /**
@@ -46,18 +50,43 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-      $scheduled_at = $request->eventDate . ' ' . $request->eventHour . ':00';
-    
+
+        
+        $request->validate([
+            'image' => 'required|file|mimes:jpg,png|max:2048', 
+            'eventDate' => 'required',
+            'eventHour' => 'required',
+            'categories_events_id' => 'required',
+            'status_events_id' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'priority' => 'required',
+        ]);
+        $file = $request->file('image');
+        $file_name = 'event_' . time() . '.' . $file->getClientOriginalExtension();
+        $path = $file->storeAs('public/images', $file_name);
+      
+
+     
+     $scheduled_at = $request->eventDate . ' ' . $request->eventHour . ':00';
+
+
+
       $event = Event::create([
         'categories_events_id' => $request->categories_events_id,
         'status_events_id' => $request->status_events_id,
-        'event_name' => $request->name,
+        'name' => $request->name,
         'description' => $request->description,
+        'priority' => $request->priority,
+        'image_event' => $file_name,
         'scheduled_at' => $scheduled_at,
       ]);
-    
-    
       return redirect()->route('admin.index')->with('success','Event registered successfully.');
+ 
+    
+
+        
+    
     }
     
     /**
@@ -88,27 +117,24 @@ class EventController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    
-        //
+        $scheduled_at = $request->eventDate . ' ' . $request->eventHour . ':00';
+        $file = $request->file('image');
+        $file_name = 'event_' . time() . '.' . $file->getClientOriginalExtension();
+        $path = $file->storeAs('public/images', $file_name);
+     
         $query = Event::find($id);
-       
-        if($query){
 
-            //check if image was uploaded
-            if($file != null){
-                //check if image exists to delete it
-                $file_to_remove = 'storage/images/'.$request->old_image;
-                if(File::exists($file_to_remove)){
-                    File::delete($file_to_remove);
-                }
-                //to upload image, generate a new name and save it in storage
-            
+    if($query){
+
+   
+  
+       
 
             $query->update([
                 'categories_events_id' => $request->categories_events_id,
                 'status_events_id' => $request->status_events_id,
                 'name' => $request->name,
-             
+                'image_event' => $file_name,
                 'description' => $request->description,
                 'scheduled_at' => $request->scheduled_at
             ]);
@@ -116,7 +142,7 @@ class EventController extends Controller
             return redirect()->route('admin.index')->with('success','Event updated successfully.');
         }
     }
-    }
+    
 
     /**
      * Remove the specified resource from storage.
