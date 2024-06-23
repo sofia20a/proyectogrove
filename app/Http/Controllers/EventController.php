@@ -102,13 +102,40 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id , Request $request)
     {
-        //
-     $event = Event::find($id);
- 
-    return view('admin.showEvent', compact('event'));
+        // Obtener el evento con la información de la categoría relacionada
+        $event = Event::select(
+            'events.id',
+            'status_events.status_name',
+            'categories_events.category_name',
+            'events.name',
+            'events.description',
+            'events.priority',
+            'events.image_event',
+            'events.scheduled_at'
+        )
+        ->join('status_events', 'status_events.id', '=', 'events.status_events_id')
+        ->join('categories_events', 'categories_events.id', '=', 'events.categories_events_id')
+        ->where('events.id', $id)
+        ->first();
+
+        // Validar si se encontró el evento
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        // Determinar si la solicitud espera una respuesta JSON
+        if ($request->is('api/*') || $request->wantsJson()) {
+            // Retornar el evento como una respuesta JSON
+            return response()->json(['event' => $event]);
+        }
+
+        // Si la solicitud no espera JSON, devolver la vista
+        return view('admin.showEvent', compact('event'));
     }
+   
+    
 
     /**
      * Show the form for editing the specified resource.
