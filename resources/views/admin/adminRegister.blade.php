@@ -5,8 +5,8 @@
 @section('content')
   <body class="flex mainFont bg-[#EAECEF] ">
     <div class="relative w-full h-screen" style="background-image: url('./header.svg'); background-size: cover; ">
-      <div class="absolute inset-0 ml-36 ">
-        <span class="uppercase font-light text-4xl mt-6  text-white -tracking-[-1rem]">Grove</span>
+      <div class=" inset-0 ml-36 ">
+        <span class="uppercase font-light text-4xl mb-32  text-white -tracking-[-1rem]">Grove</span>
       </div>
         <div class= "max-w-md">
           <div class="flex flex-col items-center ml-10 mt-72">

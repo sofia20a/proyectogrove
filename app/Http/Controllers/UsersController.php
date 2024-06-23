@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Validator;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Mail\UserMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class UsersController extends Controller
