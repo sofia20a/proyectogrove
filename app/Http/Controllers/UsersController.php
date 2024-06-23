@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Mail\UserMail;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -25,7 +26,7 @@ class UsersController extends Controller
     public function create()
     {
         //
-        return view('admin.register');
+        return view('admin.adminRegister');
     }
 
     /**
@@ -43,11 +44,9 @@ class UsersController extends Controller
             'name.required' => 'Name field is required.',
             'username.required' => 'Username field is required.',
             'password.required' => 'Password field is required.',
-            'email.required' => 'Email field is required - min 8 chars.',
+            'email.required' => 'Email field is required - min 3 chars.',
             'email.email' => 'Email field must be email address.'
         ]);
-
-        dd($request->all());
 
 
         if($validator->fails())
@@ -67,7 +66,9 @@ class UsersController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $password,
-            'verification_code' => $rand_code
+            'user_type' => 0,
+            'courses_id' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+          
         ]);
 
         //send email
@@ -83,7 +84,7 @@ class UsersController extends Controller
     public function show(string $id)
     {
         //
-        return view('admin.register');
+        return view('admin.adminRegister');
     }
 
     public function login()
@@ -129,7 +130,7 @@ class UsersController extends Controller
         session_start();
         session_destroy();
         //return response()->json(['message' => 'Logged out successfully']);
-        return redirect()->route('admin.login');
+        return redirect()->route('admin.adminLogin');
     }
 
     /**

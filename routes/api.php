@@ -26,3 +26,5 @@ Route::get('/users/all', [UserController::class, 'index']);
 Route::get('/events/all', [EventController::class, 'index']);
 
 Route::get('/events/event/{id}', [EventController::class, 'show']);
+
+Route::post('/users/create', [EventController::class, 'store']);
