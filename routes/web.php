@@ -27,5 +27,6 @@ Route::get('/courses/{id}', [TestController::class, 'show'])->name('course');
 
 //users
 
-Route::get('/login', [UsersController::class, 'login']);
+Route::get('/login', [UsersController::class, 'login'])->name('admin.adminLogin');
+Route::post('/check', [UsersController::class, 'check'])->name('admin.check');
 Route::resource('/singup', UsersController::class);

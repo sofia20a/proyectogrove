@@ -39,6 +39,49 @@ class UsersController extends Controller
         return view('admin.adminRegister');
     }
 
+    public function login()
+    {
+
+        return view('admin.adminLogin');
+    }
+
+    public function check(Request $request)
+    {
+        if(!Auth::attempt($request->only('email', 'password')))
+        {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $user = User::where('email', $request['email'])->firstOrFail();
+        
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $uid =  $user->id;
+        session_start();
+        //$_SESSION["uid"] = $uid;
+
+        /*return response()->json([
+            'code' => 200,
+            'message' => 'Hi '.$user->name,
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user
+        ]);*/
+
+        return redirect()->route('admin.index');
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+        Auth::logout();
+        //destroy session and variables
+        session_start();
+        session_destroy();
+        //return response()->json(['message' => 'Logged out successfully']);
+        return redirect()->route('admin.login');
+    }
+
     /**
      * Store a newly created resource in storage.
      */

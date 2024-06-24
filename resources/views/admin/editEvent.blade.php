@@ -7,7 +7,8 @@
 <section class="grid w-[70vw] m-auto mt-12">
     <h2 class="text-[32px] text-[#1F5B6C]">Edit-Event</h2>
    
-    @csrf <form action="{{ route('admin.update', $event->id) }}" method="POST"   enctype="multipart/form-data" class="flex gap-4 w-full rounded-md bg-white p-8">
+     <form action="{{ route('admin.update', $event->id) }}" method="POST"   enctype="multipart/form-data" class="flex gap-4 w-full rounded-md bg-white p-8">
+     @csrf
     @method('PUT')
         <div class="grid mainFont gap-4">
             <div class="flex flex-wrap gap-[5vw]">
