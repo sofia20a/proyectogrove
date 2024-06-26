@@ -67,8 +67,8 @@ class UsersController extends Controller
             'token_type' => 'Bearer',
             'user' => $user
         ]);*/
-
-        return redirect()->route('admin.index');
+        return response()->json($user);
+        //return redirect()->route('admin.index');
     }
 
     public function logout()
@@ -133,8 +133,9 @@ class UsersController extends Controller
             return response()->json(['message' => 'User created successfully.', 'user' => $user], 201);
         }
 
+        return response()->json(['message' => 'registered successfully'], 200);
         // Redirigir a la vista de administración
-        return redirect()->route('admin.index')->with('success', 'User created successfully.');
+        //return redirect()->route('admin.index')->with('success', 'User created successfully.');
     }
 
     /**

@@ -80,7 +80,7 @@
                         @endforeach
                     </select>
             </div>
-            <input class="ml-[50%] rounded-md  p-1 pl-2 pr-2 bg-[#FFDA58] text-white" type="submit" value={value} >
+            <input class="ml-[50%] rounded-md  p-1 pl-2 pr-2 bg-[#FFDA58] text-white" type="submit" value="Add" >
         </div>
     </form>
 </section>

@@ -28,7 +28,7 @@
           </div>
           <div class="mb-4 flex flex-col">
             <label for="password" class="text-[#76C6D1] mainFont font-medium"> Password</label>
-            <input id="password" type="text" placeholder="" class="w-[200px] rounded-full px-4 py-1 border focus:outline-none border-[#76C6D1]" name="password">
+            <input id="password" type="password" placeholder="" class="w-[200px] rounded-full px-4 py-1 border focus:outline-none border-[#76C6D1]" name="password">
           </div>
           <div class="mb-4  flex flex-col">
             <button type="submit" class="bg-[#FFDA58] p-1 rounded-full h-8 text-lg text-white m-6 font-bold">Log-In</button>
